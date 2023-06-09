@@ -41,8 +41,23 @@ export const serviceRouter = createTRPCRouter({
     if(!response.daily.weathercode || !response.daily.temperature_2m_max || !response.daily.temperature_2m_min || !response.daily.sunrise || !response.daily.sunset || !response.daily.precipitation_probability_max || !response.current_weather.temperature) {
       throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Weather returned wrong thing?!?!"})
     }
+
+    const limitedResponse = {
+      current_weather: {
+        temperature: response.current_weather.temperature,
+      },
+      daily: {
+        weathercode: response.daily.weathercode,
+        temperature_2m_max: response.daily.temperature_2m_max,
+        temperature_2m_min: response.daily.temperature_2m_min,
+        sunrise: response.daily.sunrise,
+        sunset: response.daily.sunset,
+        precipitation_probability_max: response.daily.precipitation_probability_max,
+      },
+    }
+    
     return {
-      response,
+      limitedResponse,
     };
   }),
 });
