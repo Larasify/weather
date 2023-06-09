@@ -1,4 +1,5 @@
-import axios from "axios";
+import { TRPCError } from "@trpc/server";
+import axios, { AxiosResponse } from "axios";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
@@ -18,7 +19,7 @@ interface WeatherResponse {
 
 export const serviceRouter = createTRPCRouter({
   weatherapi: publicProcedure.query(async () => {
-    const f = await axios.get("https://api.open-meteo.com/v1/forecast/", {
+    const f: AxiosResponse<WeatherResponse> = await axios.get("https://api.open-meteo.com/v1/forecast/", {
       params: {
         latitude: "52.52",
         longitude: "13.41",
@@ -29,9 +30,17 @@ export const serviceRouter = createTRPCRouter({
         timezone: "Europe/London",
       },
     });
+    if (f.status !== 200) {
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Weather API is not working"})
+    }
+    if (!f.data) {
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Weather API is not working"})
+    }
     const response: WeatherResponse = f.data;
-    console.log(response.current_weather.temperature);
-    console.log(response.daily.sunrise);
+    //validate response
+    if(!response.daily.weathercode || !response.daily.temperature_2m_max || !response.daily.temperature_2m_min || !response.daily.sunrise || !response.daily.sunset || !response.daily.precipitation_probability_max || !response.current_weather.temperature) {
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Weather returned wrong thing?!?!"})
+    }
     return {
       response,
     };
