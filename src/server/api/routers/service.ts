@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import axios, { AxiosResponse } from "axios";
+import axios, { type AxiosResponse } from "axios";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
@@ -18,13 +18,13 @@ export interface WeatherResponse {
 }
 
 export const serviceRouter = createTRPCRouter({
-  weatherapi: publicProcedure.query(async () => {
+  weatherapi: publicProcedure.input(z.object({lat:z.string(), lon:z.string()})).query(async ({input}) => {
     const f: AxiosResponse<WeatherResponse> = await axios.get(
       "https://api.open-meteo.com/v1/forecast/",
       {
         params: {
-          latitude: "52.52",
-          longitude: "13.41",
+          latitude: input.lat,
+          longitude: input.lon,
           daily:
             "weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_probability_max",
           current_weather: true,
