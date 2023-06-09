@@ -7,8 +7,11 @@ const titlestyle = "text-sm text-gray-700";
 const valuestyle = "text-sm text-gray-400";
 export const BottomCard = (props: WeatherResponse) => {
   return (
-    <div className="overflow-hidden rounded shadow-lg">
-      <div className="flex border p-4"> hey</div>
+    <div className="overflow-hidden rounded-lg shadow-lg">
+      <div className="flex flex-row justify-between border p-4"> 
+      <span className="uppercase tracking-widest text-sm font-bold">Weather</span>
+      <span className="capitilze tracking-widest text-sm text-white bg-black px-2 rounded opacity-75 shadow-lg">{dayjs().format("MMMM D")}</span>
+      </div>
 
       <div className="flex border p-4"> hey</div>
 
