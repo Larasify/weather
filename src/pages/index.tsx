@@ -3,10 +3,12 @@ import { api } from "~/utils/api";
 
 
 const Home: NextPage = () => {
-  const {data, isLoading} = api.example.hello.useQuery({text: 'client'})
+  const {data, isLoading} = api.service.weatherapi.useQuery(undefined, {refetchInterval:0, refetchOnReconnect: false, refetchOnWindowFocus: false});
   return (
     <div className="mx-auto flex max-w-screen-xl flex-col py-2">
       <div className="w-30 rounded border-2 border-dashed border-gray-200  p-4">
+        {isLoading ? "Loading..." : data?.response?.daily.temperature_2m_min}
+        {isLoading ? "Loading..." : data?.response?.current_weather.temperature}
         <InfoCard />
       </div>
       <div className="p-2"></div>
