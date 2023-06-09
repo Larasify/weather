@@ -1,6 +1,8 @@
 import { type NextPage } from "next";
 import { api } from "~/utils/api";
 import type { WeatherResponse } from "../server/api/routers/service";
+import { Icon } from '@iconify/react';
+
 
 const Home: NextPage = () => {
   const { data, isLoading } = api.service.weatherapi.useQuery(undefined, {
@@ -60,15 +62,15 @@ const BottomCard = (props: WeatherResponse) => {
       <div className="flex border p-4"> hey</div>
       <div className="flex border p-4"> hey</div>
       <div className="flex flex-row justify-between border p-4">
-        <div className="flex flex-row">
-          <span>icon</span>
+        <div className="flex items-center">
+        <Icon icon="wi:thermometer-exterior" className="text-blue-500 text-3xl" />
           <div className="flex flex-col">
             <b>minimum</b> <span>{props.daily.temperature_2m_min}</span>
           </div>
         </div>
 
-        <div className="flex flex-row">
-          <span>icon</span>
+        <div className="flex items-center">
+          <Icon icon="wi:thermometer" className="text-red-500 text-3xl" />
           <div className="flex flex-col">
             <b>maximum</b> <span>{props.daily.temperature_2m_max}</span>
           </div>
