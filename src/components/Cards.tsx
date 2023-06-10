@@ -1,21 +1,49 @@
 import type { WeatherResponse } from "../server/api/routers/service";
 import { Icon } from "@iconify/react";
 import dayjs from "dayjs";
-
+import { weatherCondition } from "~/utils/weatherCondition";
+import Image from "next/image";
 
 const titlestyle = "text-sm text-gray-700";
 const valuestyle = "text-sm text-gray-400";
 export const BottomCard = (props: WeatherResponse) => {
+  const condition = weatherCondition(props.daily.weathercode);
+  if (!condition) return <div>:c</div>;
   return (
     <div className="overflow-hidden rounded-lg shadow-lg">
-      <div className="flex flex-row justify-between border p-4"> 
-      <span className="uppercase tracking-widest text-sm font-bold">Weather</span>
-      <span className="capitilze tracking-widest text-sm text-white bg-black px-2 rounded opacity-75 shadow-lg">{dayjs().format("MMMM D")}</span>
+      <div className="flex flex-row justify-between border p-4">
+        <span className="text-sm font-bold uppercase tracking-widest">
+          Weather
+        </span>
+        <span className="capitilze rounded bg-black px-2 text-sm tracking-widest text-white opacity-75 shadow-lg">
+          {dayjs().format("MMMM D")}
+        </span>
       </div>
 
-      <div className="flex border p-4"> hey</div>
+      <div className="flex flex-col items-center justify-between gap-5 border p-4">
+        <div className="flex w-full flex-row justify-between items-center align-middle">
+          <Image
+            src={condition.iconurl}
+            width={64}
+            height={64}
+            alt=""
+            className="h-full"
+          />
+          <div className="flex flex-col items-center">
+            <Icon icon="wi:night-sprinkle" className="text-3xl text-blue-400" />
+            <b className={titlestyle}>Precipitation</b>
+            <span className={valuestyle}>
+              {props.daily.precipitation_probability_max}%
+            </span>
+          </div>
+        </div>
+        <div className="w-full text-sm">
+          <b>{condition.condition}</b>
+          <span> throughout the day</span>
+        </div>
+      </div>
 
-      <div className="flex flex-row justify-between border p-4">
+      <div className="flex flex-row justify-between border p-4 px-8">
         <div className="flex items-center">
           <Icon
             icon="wi:thermometer-exterior"
@@ -35,10 +63,10 @@ export const BottomCard = (props: WeatherResponse) => {
         </div>
       </div>
 
-      <div className="flex flex-row justify-between border p-4">
+      <div className="flex flex-row justify-between border p-4 px-8">
         <div className="flex items-center">
           <Icon icon="wi:horizon-alt" className="text-3xl text-yellow-500" />
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
             <b className={titlestyle}>Sunrise</b>{" "}
             <span className={valuestyle}>
               {dayjs(props.daily.sunrise).format("HH:MM")}

@@ -21,16 +21,16 @@ const Home: NextPage = () => {
         <InfoCard />
       </div>
       <div className="flex flex-col gap-4 lg:flex-row">
-        <div className="flex w-full flex-col justify-between gap-4 sm:flex-row lg:w-96 lg:flex-col">
-          <div className="w-full rounded border-2 border-dashed border-gray-200  p-6 text-center">
+        <div className="flex w-full flex-col justify-between gap-4 sm:flex-row lg:w-2/5 lg:flex-col">
+          <div className="w-full rounded border-2 border-dashed border-gray-200  p-4 text-center">
             <InfoCard />
           </div>
 
-          <div className="w-full rounded border-2 border-dashed border-gray-200 p-6">
+          <div className="w-full rounded border-2 border-dashed border-gray-200 p-4">
             <BottomCard {...data.limitedResponse} />
           </div>
         </div>
-        <div className="w-full rounded border-2 border-dashed border-gray-200  p-6">
+        <div className="w-full rounded border-2 border-dashed border-gray-200 p-4">
           <InfoCard />
         </div>
       </div>
@@ -44,8 +44,7 @@ const InfoCard = () => {
       <div className="px-6 py-4">
         <div className="mb-2 text-xl font-bold">The Coldest Sunset</div>
         <p className="text-base text-gray-700">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Voluptatibusasl lsjdlkasdlaksjdlkajldssjalskdjls
+          pleading face
         </p>
       </div>
     </div>
