@@ -4,6 +4,9 @@
 - [ ] fix crash on coord enter on some coordinates (-12lng)
 - [ ] search address
 - [ ] Map typescript error of any assignment
+- [ ] add current weather
+- [ ] add site manifest and favico
+- [ ] add github link and about me
 
 
 
