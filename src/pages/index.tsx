@@ -3,6 +3,9 @@ import { api } from "~/utils/api";
 import { BottomCard, TopCard } from "~/components/Cards";
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import { LocationResponse } from "~/server/api/routers/service";
+import { LoadingPage } from "~/components/loading";
 
 export type setNewCoordType = (lat: string, lon: string) => void;
 
@@ -20,7 +23,19 @@ const Home: NextPage = () => {
     }
   );
 
- 
+  const {
+    data: locationData,
+    isLoading: locationIsLoading,
+    refetch: locationRefetch,
+  } = api.service.locationapi.useQuery(
+    { lat: lat, lon: lon },
+    {
+      refetchInterval: 0,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+  
 
   const setNewCoords: setNewCoordType = (lat: string, lon: string) => {
     console.log(lat);
@@ -32,19 +47,13 @@ const Home: NextPage = () => {
     ssr: false,
   });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (!data || !data.limitedResponse) return <div>Hello</div>;
+  if (isLoading) return <LoadingPage/>
+  if (!data || !data.limitedResponse || !locationData) return <div>Hello</div>;
   return (
     <>
       <div className="mx-auto flex max-w-screen-xl flex-col gap-4 py-2">
         <div className="w-30 rounded border-2 border-dashed border-gray-200  p-4">
-          {isLoading
-            ? "Loading..."
-            : data?.limitedResponse?.daily.temperature_2m_min}
-          {isLoading
-            ? "Loading..."
-            : data?.limitedResponse?.current_weather.temperature}
-          <InfoCard />
+          <InfoCard display_name={locationData}/>
         </div>
         <div className="flex flex-col gap-4 lg:flex-row">
           <div className="flex w-full flex-col justify-between gap-4 sm:flex-row lg:w-2/5 lg:flex-col">
@@ -57,8 +66,11 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div className="w-full rounded border-2 border-dashed border-gray-200 p-4">
-            <div id="map" className="w-full max-h-96 h-screen lg:max-h-full lg:w-full lg:h-full" >
-              <MapWithNoSSR coords={input} setNewCoords={setNewCoords}/>
+            <div
+              id="map"
+              className="h-screen max-h-96 w-full lg:h-full lg:max-h-full lg:w-full"
+            >
+              <MapWithNoSSR coords={input} setNewCoords={setNewCoords} />
             </div>
           </div>
         </div>
@@ -67,12 +79,23 @@ const Home: NextPage = () => {
   );
 };
 
-const InfoCard = () => {
+const InfoCard = (props:LocationResponse) => {
   return (
     <div className="w-full overflow-hidden rounded shadow-lg">
-      <div className="px-6 py-4">
-        <div className="mb-2 text-xl font-bold">The Coldest Sunset</div>
-        <p className="text-base text-gray-700">pleading face</p>
+      <div className="flex flex-row items-center px-6">
+        <Image
+          src="/location.png"
+          alt="location"
+          width={56}
+          height={56}
+          className="h-full"
+        />
+        <div className="px-6 py-4">
+          <div className="whitespace-nowrap text-2xl font-semibold">
+            Current Location
+          </div>
+          <p className="text-base text-gray-900">{props.display_name}</p>
+        </div>
       </div>
     </div>
   );

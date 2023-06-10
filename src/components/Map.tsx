@@ -22,6 +22,7 @@ interface PropInterface {
 }
 
 const Map = (props: PropInterface) => {
+  const [zoomLevel, setZoomLevel] = useState(17);
   if (!props.coords[0] || !props.coords[1]) return <div>hello</div>;
   const lat = parseFloat(props.coords[0]);
   const lon = parseFloat(props.coords[1]);
@@ -35,6 +36,11 @@ const Map = (props: PropInterface) => {
           newCoords.lng.toPrecision(8).toString()
         );
       },
+      zoomend: () => {
+        console.log(map.getZoom());
+        setZoomLevel(map.getZoom());
+        console.log(zoomLevel);
+       },
     });
     return null;
   }
@@ -42,7 +48,7 @@ const Map = (props: PropInterface) => {
   return (
     <MapContainer
       center={[lat, lon]}
-      zoom={17}
+      zoom={zoomLevel}
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
     >

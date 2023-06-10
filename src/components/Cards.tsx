@@ -53,14 +53,14 @@ export const BottomCard = (props: WeatherResponse) => {
           />
           <div className="flex flex-col">
             <b className={titlestyle}>Minimum</b>{" "}
-            <span className={valuestyle}>{props.daily.temperature_2m_min}</span>
+            <span className={valuestyle}>{props.daily.temperature_2m_min}º</span>
           </div>
         </div>
         <div className="flex items-center">
           <Icon icon="wi:thermometer" className="text-3xl text-red-500" />
           <div className="flex flex-col">
             <b className={titlestyle}>Maximum</b>{" "}
-            <span className={valuestyle}>{props.daily.temperature_2m_max}</span>
+            <span className={valuestyle}>{props.daily.temperature_2m_max}º</span>
           </div>
         </div>
       </div>

@@ -1,3 +1,12 @@
+## TODO
+
+- [ ] don't rerender page on refresh
+- [ ] fix crash on coord enter on some coordinates (-12lng)
+- [ ] search address
+- [ ] Map typescript error of any assignment
+
+
+
 # Create T3 App
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
