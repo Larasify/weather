@@ -3,6 +3,8 @@ import { Icon } from "@iconify/react";
 import dayjs from "dayjs";
 import { weatherCondition } from "~/utils/weatherCondition";
 import Image from "next/image";
+import { type setNewCoordType } from "~/pages";
+import { useState } from "react";
 
 const titlestyle = "text-sm text-gray-700";
 const valuestyle = "text-sm text-gray-400";
@@ -21,12 +23,12 @@ export const BottomCard = (props: WeatherResponse) => {
       </div>
 
       <div className="flex flex-col items-center justify-between gap-5 border p-4">
-        <div className="flex w-full flex-row justify-between items-center align-middle">
+        <div className="flex w-full flex-row items-center justify-between align-middle">
           <Image
             src={condition.iconurl}
             width={64}
             height={64}
-            alt=""
+            alt="Weather"
             className="h-full"
           />
           <div className="flex flex-col items-center">
@@ -83,6 +85,69 @@ export const BottomCard = (props: WeatherResponse) => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+export const TopCard: React.FC<{
+  coords: string[];
+  setNewCoords: setNewCoordType;
+}> = (props) => {
+  const [latinput, setLatInput] = useState(props.coords[0]);
+  const [loninput, setLonInput] = useState(props.coords[1]);
+
+  //if(!props.coords[0] || !props.coords[1]) return(<div></div>);
+  //const lat = props.coords[0];
+  //const lon = props.coords[1];
+  //setLatInput(props.coords[0]);
+  //setLonInput(props.coords[1]);
+
+  const handleClick = () => {
+    console.log("clicked");
+    if (!latinput || !loninput) return;
+    props.setNewCoords(latinput, loninput);
+  };
+
+  return (
+    <div className="overflow-hidden rounded-lg shadow-lg">
+      <div className="flex flex-row justify-between border p-4">
+        <button onClick={handleClick}>Hello</button>
+      </div>
+
+      <div className="flex flex-col items-center justify-between gap-5 border p-4">
+        <input
+          type="text"
+          className="grow bg-transparent"
+          placeholder="lattitude"
+          value={latinput}
+          onChange={(e) => setLatInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleClick();
+            }
+          }}
+        />
+      </div>
+
+      <div className="flex flex-col items-center justify-between gap-5 border p-4">
+        <input
+          type="text"
+          className="grow bg-transparent"
+          placeholder="longitude"
+          value={loninput}
+          onChange={(e) => setLonInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleClick();
+            }
+          }}
+        />
+      </div>
+
+
+      <div className="flex flex-row justify-between border p-4 px-8">Hello</div>
     </div>
   );
 };
