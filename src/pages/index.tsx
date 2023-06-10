@@ -65,7 +65,7 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div className="w-full rounded border-2 border-dashed border-gray-200 p-4">
-            <div id="map" className="w-full h-full">
+            <div id="map" className="w-full max-h-96 h-screen lg:max-h-full lg:w-full lg:h-full" >
               <MapWithNoSSR />
             </div>
           </div>
