@@ -20,15 +20,7 @@ const Home: NextPage = () => {
     }
   );
 
-  const { data: locationData, isLoading: locationLoading } =
-    api.service.locationapi.useQuery(
-      { lat: lat, lon: lon },
-      {
-        refetchInterval: 0,
-        refetchOnReconnect: false,
-        refetchOnWindowFocus: false,
-      }
-    );
+ 
 
   const setNewCoords: setNewCoordType = (lat: string, lon: string) => {
     console.log(lat);
@@ -66,7 +58,7 @@ const Home: NextPage = () => {
           </div>
           <div className="w-full rounded border-2 border-dashed border-gray-200 p-4">
             <div id="map" className="w-full max-h-96 h-screen lg:max-h-full lg:w-full lg:h-full" >
-              <MapWithNoSSR />
+              <MapWithNoSSR coords={input} setNewCoords={setNewCoords}/>
             </div>
           </div>
         </div>

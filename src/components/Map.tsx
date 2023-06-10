@@ -1,21 +1,55 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
+import { useState } from "react";
+import { setNewCoordType } from "~/pages";
 
-const Map = () => {
+
+interface MarkerPosition {
+  lat: number;
+  lng: number;
+}
+
+interface PropInterface{
+  coords: string[];
+  setNewCoords: setNewCoordType;
+}
+
+const Map = (props: PropInterface) => {
+
+  if(!props.coords[0] || !props.coords[1]) return <div>hello</div>;
+  const lat = parseFloat(props.coords[0]);
+  const lon= parseFloat(props.coords[1]);
+
+
+
+  function AddMarkerOnClick(){
+    const map = useMapEvents({
+      click(e) {
+        const newCoords = e.latlng;
+        props.setNewCoords(newCoords.lat.toPrecision(8).toString(), newCoords.lng.toPrecision(8).toString());
+      },
+    });
+    return null;
+  }
+  
+
+
+
   return (
     <MapContainer
-      center={[40.8054, -74.0241]}
+      center={[lat, lon]}
       zoom={14}
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
     >
+      <AddMarkerOnClick />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[40.8054, -74.0241]} draggable={true}>
+      <Marker position={[lat, lon]} draggable={true}>
         <Popup>Hey ! you found me</Popup>
       </Marker>
     </MapContainer>
