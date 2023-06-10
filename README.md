@@ -1,12 +1,13 @@
 ## TODO
 
 - [ ] don't rerender page on refresh
-- [ ] fix crash on coord enter on some coordinates (-12lng)
+- [ ] fix crash on coord enter on some coordinates (-12lng) (maybe where you click the sea where there is no address data)
 - [ ] search address
 - [ ] Map typescript error of any assignment
 - [ ] add current weather
 - [ ] add site manifest and favico
 - [ ] add github link and about me
+- [ ] Black box opposite of coordinates should show current location 
 
 
 
