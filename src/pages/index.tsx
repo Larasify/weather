@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 export type setNewCoordType = (lat: string, lon: string) => void;
 
 const Home: NextPage = () => {
-  const [input, setInput] = useState(["52", "13"]);
+  const [input, setInput] = useState(["53.381549", "-1.4819047"]);
   const lat = input[0];
   const lon = input[1];
   if (!lat || !lon) return <div>hello</div>;
