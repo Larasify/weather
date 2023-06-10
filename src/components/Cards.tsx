@@ -12,7 +12,7 @@ export const BottomCard = (props: WeatherResponse) => {
   const condition = weatherCondition(props.daily.weathercode);
   if (!condition) return <div>:c</div>;
   return (
-    <div className="overflow-hidden rounded-lg shadow-lg">
+    <div className="overflow-hidden rounded-lg shadow-lg ">
       <div className="flex flex-row justify-between border p-4">
         <span className="text-sm font-bold uppercase tracking-widest">
           Weather
@@ -109,8 +109,8 @@ export const TopCard: React.FC<{
   };
 
   return (
-    <div className="overflow-hidden rounded-lg shadow-lg">
-      <div className="flex flex-row justify-between border p-4">
+    <div className="flex flex-col justify-center shadow-xl rounded-lg w-full h-full my-auto">
+      <div className="flex flex-row justify-between p-4">
         <span className="text-sm font-bold uppercase tracking-widest">
           Coordinates
         </span>
@@ -119,11 +119,11 @@ export const TopCard: React.FC<{
         </span>
       </div>
 
-
-      <div className="flex flex-col items-center justify-between gap-5 border p-4">
+      <div className="flex flex-row items-center justify-between py-4 px-8 border p-4">
+        <span className="block text-sm font-medium text-gray900">Lattitude</span>
         <input
           type="text"
-          className="grow bg-transparent"
+          className="block w-32 rounded-lg border border-gray-300 bg-gray-100 py-2 text-center text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-xs"
           placeholder="lattitude"
           value={latinput}
           onChange={(e) => setLatInput(e.target.value)}
@@ -136,13 +136,14 @@ export const TopCard: React.FC<{
         />
       </div>
 
-      <div className="flex flex-col items-center justify-between gap-5 border p-4">
+      <div className="flex flex-row items-center justify-between py-4 px-8 p-4">
+        <span className="block text-sm font-medium text-gray900">Longitude</span>
         <input
           type="text"
-          className="grow bg-transparent"
+          className="block w-32 rounded-lg bg-gray-100 py-2 text-center text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-xs"
           placeholder="longitude"
-          value={loninput}
-          onChange={(e) => setLonInput(e.target.value)}
+          value={latinput}
+          onChange={(e) => setLatInput(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
@@ -151,8 +152,6 @@ export const TopCard: React.FC<{
           }}
         />
       </div>
-
-
     </div>
   );
 };
