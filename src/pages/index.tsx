@@ -19,7 +19,7 @@ const Home: NextPage = () => {
   const setNewCoords:setNewCoordType = (lat: string, lon: string) => {
     console.log(lat);
     setInput([lat, lon]);
-    void refetch();
+    //void refetch();
   };
 
   if (isLoading) return <div>Loading...</div>;

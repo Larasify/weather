@@ -29,7 +29,7 @@ export const serviceRouter = createTRPCRouter({
             "weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_probability_max",
           current_weather: true,
           forecast_days: 1,
-          timezone: "Europe/London",
+          timezone: "auto",
         },
       }
     );
