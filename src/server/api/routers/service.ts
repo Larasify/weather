@@ -81,4 +81,21 @@ export const serviceRouter = createTRPCRouter({
       limitedResponse,
     };
   }),
+
+  locationapi: publicProcedure.input(z.object({lat:z.string(), lon:z.string()})).query(async ({input}) => {
+
+    const f: AxiosResponse<any> = await axios.get(
+      "https://nominatim.openstreetmap.org/reverse",{
+        params: {
+          format: "jsonv2",
+          lat: input.lat,
+          lon: input.lon,
+          zoom: 12,
+
+      }
+    });
+
+    console.log(f.data);
+    return "kek";
+  }),
 });

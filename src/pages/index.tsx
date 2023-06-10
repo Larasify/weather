@@ -3,6 +3,8 @@ import { api } from "~/utils/api";
 import { BottomCard, TopCard } from "~/components/Cards";
 import { useState } from "react";
 
+
+
 export type setNewCoordType = (lat: string, lon: string) => void;
 
 const Home: NextPage = () => {
@@ -16,6 +18,13 @@ const Home: NextPage = () => {
     refetchOnWindowFocus: false,
   });
 
+  const { data:locationData, isLoading:locationLoading } = api.service.locationapi.useQuery({lat:lat, lon:lon}, {
+    refetchInterval: 0,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
+
+
   const setNewCoords:setNewCoordType = (lat: string, lon: string) => {
     console.log(lat);
     setInput([lat, lon]);
@@ -25,6 +34,7 @@ const Home: NextPage = () => {
   if (isLoading) return <div>Loading...</div>;
   if (!data || !data.limitedResponse) return <div>Hello</div>;
   return (
+    
     <div className="mx-auto flex max-w-screen-xl flex-col gap-4 py-2">
       <div className="w-30 rounded border-2 border-dashed border-gray-200  p-4">
         {isLoading
@@ -46,7 +56,7 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className="w-full rounded border-2 border-dashed border-gray-200 p-4">
-          <InfoCard />
+          
         </div>
       </div>
     </div>

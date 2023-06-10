@@ -111,8 +111,14 @@ export const TopCard: React.FC<{
   return (
     <div className="overflow-hidden rounded-lg shadow-lg">
       <div className="flex flex-row justify-between border p-4">
-        <button onClick={handleClick}>Hello</button>
+        <span className="text-sm font-bold uppercase tracking-widest">
+          Coordinates
+        </span>
+        <span className="capitilze rounded bg-black px-2 text-sm tracking-widest text-white opacity-75 shadow-lg">
+          Turkey
+        </span>
       </div>
+
 
       <div className="flex flex-col items-center justify-between gap-5 border p-4">
         <input
@@ -147,7 +153,6 @@ export const TopCard: React.FC<{
       </div>
 
 
-      <div className="flex flex-row justify-between border p-4 px-8">Hello</div>
     </div>
   );
 };
