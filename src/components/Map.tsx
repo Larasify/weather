@@ -48,10 +48,11 @@ const Map = (props: PropInterface) => {
       zoom={zoomLevel}
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
+      attributionControl={false}
     >
       <AddMarkerOnClick />
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <Marker position={[lat, lon]} draggable={false}>
