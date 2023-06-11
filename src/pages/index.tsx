@@ -16,6 +16,7 @@ const Home: NextPage = () => {
   const [input, setInput] = useState(["53.381549", "-1.4819047"]);
   const [currentData, setCurrentData] = useState<WeatherResponse>();
   const [currentLocationData, setCurrentLocationData] = useState<string>(" ");
+  const [textBoxChange, setTextBoxChange] = useState(false);
 
   const lat = input[0];
   const lon = input[1];
@@ -49,6 +50,7 @@ const Home: NextPage = () => {
       setCurrentLocationData(locationData);
     }
     setInput([lat, lon]);
+    setTextBoxChange(false);
     //void refetch();
   };
 
@@ -80,6 +82,8 @@ const Home: NextPage = () => {
                 coords={input}
                 setNewCoords={setNewCoords}
                 currentLocation={currentLocationData}
+                textBoxChange={textBoxChange}
+                setTextBoxChange={setTextBoxChange}
               />
             </div>
 

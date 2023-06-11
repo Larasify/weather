@@ -6,8 +6,6 @@ import Image from "next/image";
 import { type setNewCoordType } from "~/pages";
 import { useState } from "react";
 
-
-
 const titlestyle = "text-sm text-gray-700";
 const valuestyle = "text-sm text-gray-400";
 export const BottomCard = (props: WeatherResponse) => {
@@ -99,12 +97,17 @@ export const TopCard: React.FC<{
   coords: string[];
   setNewCoords: setNewCoordType;
   currentLocation: string;
+  textBoxChange: boolean;
+  setTextBoxChange: React.Dispatch<React.SetStateAction<boolean>>;
 }> = (props) => {
   const [latinput, setLatInput] = useState(props.coords[0]);
   const [loninput, setLonInput] = useState(props.coords[1]);
 
   if (!props.coords[0] || !props.coords[1]) return <div></div>;
-  if (props.coords[0] !== latinput || props.coords[1] !== loninput) {
+  if (
+    (props.coords[0] !== latinput || props.coords[1] !== loninput) &&
+    !props.textBoxChange
+  ) {
     setLatInput(props.coords[0]);
     setLonInput(props.coords[1]);
   }
@@ -127,8 +130,12 @@ export const TopCard: React.FC<{
         <span className="text-sm font-bold uppercase tracking-widest">
           Coordinates
         </span>
-        <span className="uppercase rounded bg-black px-2 text-sm tracking-widest text-white opacity-75 shadow-lg">
-          {props.currentLocation.split(",")[props.currentLocation.split(",").length - 1]}
+        <span className="rounded bg-black px-2 text-sm uppercase tracking-widest text-white opacity-75 shadow-lg">
+          {
+            props.currentLocation.split(",")[
+              props.currentLocation.split(",").length - 1
+            ]
+          }
         </span>
       </div>
 
@@ -141,7 +148,10 @@ export const TopCard: React.FC<{
           className="block w-32 rounded-lg border border-gray-300 bg-gray-100 py-2 text-center text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-xs"
           placeholder="lattitude"
           value={latinput}
-          onChange={(e) => setLatInput(e.target.value)}
+          onChange={(e) => {
+            setLatInput(e.target.value);
+            props.setTextBoxChange(true);
+          }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
@@ -160,7 +170,10 @@ export const TopCard: React.FC<{
           className="block w-32 rounded-lg border border-gray-300 bg-gray-100 py-2 text-center text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-xs"
           placeholder="longitude"
           value={loninput}
-          onChange={(e) => setLonInput(e.target.value)}
+          onChange={(e) => {
+            setLonInput(e.target.value);
+            props.setTextBoxChange(true);
+          }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
