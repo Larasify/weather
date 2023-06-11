@@ -12,7 +12,7 @@ export const BottomCard = (props: WeatherResponse) => {
   const condition = weatherCondition(props.daily.weathercode);
   if (!condition) return <div>:c</div>;
   return (
-    <div className="overflow-hidden rounded-lg shadow-lg ">
+    <div className="overflow-hidden rounded-lg shadow-lg bg-white">
       <div className="flex flex-row justify-between border p-4">
         <span className="text-sm font-bold uppercase tracking-widest">
           Weather
@@ -125,7 +125,7 @@ export const TopCard: React.FC<{
   };
 
   return (
-    <div className="my-auto flex h-full w-full flex-col justify-center rounded-lg shadow-xl">
+    <div className="my-auto flex h-full w-full flex-col justify-center rounded-lg shadow-xl bg-white">
       <div className="flex flex-row justify-between p-4">
         <span className="text-sm font-bold uppercase tracking-widest">
           Coordinates
@@ -139,7 +139,7 @@ export const TopCard: React.FC<{
         </span>
       </div>
 
-      <div className="flex flex-row items-center justify-between border p-4 px-8 py-4">
+      <div className="flex flex-row items-center justify-between border-y p-4 px-8 py-4">
         <span className="text-gray900 block text-sm font-medium">
           Lattitude
         </span>

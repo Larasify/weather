@@ -19,7 +19,7 @@ interface PropInterface {
 }
 
 const Map = (props: PropInterface) => {
-  const [zoomLevel, setZoomLevel] = useState(17);
+  const [zoomLevel, setZoomLevel] = useState(14);
   if (!props.coords[0] || !props.coords[1]) return <div>hello</div>;
   const lat = parseFloat(props.coords[0]);
   const lon = parseFloat(props.coords[1]);

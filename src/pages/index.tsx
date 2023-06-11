@@ -71,7 +71,7 @@ const Home: NextPage = () => {
   if (!currentData) return <LoadingPage />;
   return (
     <>
-      <div className="mx-auto flex max-w-screen-xl flex-col gap-4 py-2">
+      <div className="mx-auto flex max-w-screen-xl flex-col gap-4 py-4">
         <div className="w-30 rounded border-2 border-dashed border-gray-200  p-4">
           <InfoCard display_name={currentLocationData} />
         </div>
@@ -107,7 +107,7 @@ const Home: NextPage = () => {
 
 const InfoCard = (props: LocationResponse) => {
   return (
-    <div className="w-full overflow-hidden rounded shadow-lg">
+    <div className="w-full bg-white overflow-hidden rounded shadow-lg">
       <div className="flex flex-row items-center justify-between px-6">
         <div className="flex flex-row items-center ">
           <Image
@@ -128,7 +128,7 @@ const InfoCard = (props: LocationResponse) => {
           type="button"
           data-te-ripple-init
           data-te-ripple-color="light"
-          className="mb-2 inline-block rounded bg-black opacity-75 px-6 py-2.5 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg"
+          className="mb-2 hidden sm:inline-block rounded bg-black opacity-75 px-6 py-2.5 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg"
           onClick={() => {window.location.href = 'https://github.com/Larasify';}}
         >
           <svg
