@@ -6,6 +6,8 @@ import Image from "next/image";
 import { type setNewCoordType } from "~/pages";
 import { useState } from "react";
 
+
+
 const titlestyle = "text-sm text-gray-700";
 const valuestyle = "text-sm text-gray-400";
 export const BottomCard = (props: WeatherResponse) => {
@@ -53,14 +55,18 @@ export const BottomCard = (props: WeatherResponse) => {
           />
           <div className="flex flex-col">
             <b className={titlestyle}>Minimum</b>{" "}
-            <span className={valuestyle}>{props.daily.temperature_2m_min}º</span>
+            <span className={valuestyle}>
+              {props.daily.temperature_2m_min}º
+            </span>
           </div>
         </div>
         <div className="flex items-center">
           <Icon icon="wi:thermometer" className="text-3xl text-red-500" />
           <div className="flex flex-col">
             <b className={titlestyle}>Maximum</b>{" "}
-            <span className={valuestyle}>{props.daily.temperature_2m_max}º</span>
+            <span className={valuestyle}>
+              {props.daily.temperature_2m_max}º
+            </span>
           </div>
         </div>
       </div>
@@ -92,9 +98,16 @@ export const BottomCard = (props: WeatherResponse) => {
 export const TopCard: React.FC<{
   coords: string[];
   setNewCoords: setNewCoordType;
+  currentLocation: string;
 }> = (props) => {
   const [latinput, setLatInput] = useState(props.coords[0]);
   const [loninput, setLonInput] = useState(props.coords[1]);
+
+  if (!props.coords[0] || !props.coords[1]) return <div></div>;
+  if (props.coords[0] !== latinput || props.coords[1] !== loninput) {
+    setLatInput(props.coords[0]);
+    setLonInput(props.coords[1]);
+  }
 
   //if(!props.coords[0] || !props.coords[1]) return(<div></div>);
   //const lat = props.coords[0];
@@ -109,18 +122,20 @@ export const TopCard: React.FC<{
   };
 
   return (
-    <div className="flex flex-col justify-center shadow-xl rounded-lg w-full h-full my-auto">
+    <div className="my-auto flex h-full w-full flex-col justify-center rounded-lg shadow-xl">
       <div className="flex flex-row justify-between p-4">
         <span className="text-sm font-bold uppercase tracking-widest">
           Coordinates
         </span>
-        <span className="capitilze rounded bg-black px-2 text-sm tracking-widest text-white opacity-75 shadow-lg">
-          Turkey
+        <span className="uppercase rounded bg-black px-2 text-sm tracking-widest text-white opacity-75 shadow-lg">
+          {props.currentLocation.split(",")[props.currentLocation.split(",").length - 1]}
         </span>
       </div>
 
-      <div className="flex flex-row items-center justify-between py-4 px-8 border p-4">
-        <span className="block text-sm font-medium text-gray900">Lattitude</span>
+      <div className="flex flex-row items-center justify-between border p-4 px-8 py-4">
+        <span className="text-gray900 block text-sm font-medium">
+          Lattitude
+        </span>
         <input
           type="text"
           className="block w-32 rounded-lg border border-gray-300 bg-gray-100 py-2 text-center text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-xs"
@@ -136,8 +151,10 @@ export const TopCard: React.FC<{
         />
       </div>
 
-      <div className="flex flex-row items-center justify-between py-4 px-8 p-4">
-        <span className="block text-sm font-medium text-gray900">Longitude</span>
+      <div className="flex flex-row items-center justify-between p-4 px-8 py-4">
+        <span className="text-gray900 block text-sm font-medium">
+          Longitude
+        </span>
         <input
           type="text"
           className="block w-32 rounded-lg bg-gray-100 py-2 text-center text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-xs"

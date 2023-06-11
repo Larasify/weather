@@ -9,12 +9,9 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
 import { useState } from "react";
-import { setNewCoordType } from "~/pages";
+import { type setNewCoordType } from "~/pages";
 
-interface MarkerPosition {
-  lat: number;
-  lng: number;
-}
+
 
 interface PropInterface {
   coords: string[];

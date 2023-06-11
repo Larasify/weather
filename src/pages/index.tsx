@@ -4,13 +4,19 @@ import { BottomCard, TopCard } from "~/components/Cards";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { LocationResponse } from "~/server/api/routers/service";
+import {
+  type LocationResponse,
+  type WeatherResponse,
+} from "~/server/api/routers/service";
 import { LoadingPage } from "~/components/loading";
 
 export type setNewCoordType = (lat: string, lon: string) => void;
 
 const Home: NextPage = () => {
   const [input, setInput] = useState(["53.381549", "-1.4819047"]);
+  const [currentData, setCurrentData] = useState<WeatherResponse>();
+  const [currentLocationData, setCurrentLocationData] = useState<string>(" ");
+
   const lat = input[0];
   const lon = input[1];
   if (!lat || !lon) return <div>hello</div>;
@@ -35,10 +41,13 @@ const Home: NextPage = () => {
       refetchOnWindowFocus: false,
     }
   );
-  
 
   const setNewCoords: setNewCoordType = (lat: string, lon: string) => {
     console.log(lat);
+    setCurrentData(data?.limitedResponse);
+    if (locationData) {
+      setCurrentLocationData(locationData);
+    }
     setInput([lat, lon]);
     //void refetch();
   };
@@ -47,22 +56,31 @@ const Home: NextPage = () => {
     ssr: false,
   });
 
-  if (isLoading) return <LoadingPage/>
-  if (!data || !data.limitedResponse || !locationData) return <div>Hello</div>;
+  //if (isLoading) return <LoadingPage/>
+  if (data && data.limitedResponse && locationData) {
+    if (data.limitedResponse !== currentData) {
+      setCurrentData(data.limitedResponse);
+    }
+    if (locationData !== currentLocationData) {
+      setCurrentLocationData(locationData);
+    }
+  }
+
+  if (!currentData) return <LoadingPage />;
   return (
     <>
       <div className="mx-auto flex max-w-screen-xl flex-col gap-4 py-2">
         <div className="w-30 rounded border-2 border-dashed border-gray-200  p-4">
-          <InfoCard display_name={locationData}/>
+          <InfoCard display_name={currentLocationData} />
         </div>
         <div className="flex flex-col gap-4 lg:flex-row">
           <div className="flex w-full flex-col justify-between gap-4 sm:flex-row lg:w-2/5 lg:flex-col">
             <div className="w-full rounded border-2 border-dashed border-gray-200  p-4">
-              <TopCard coords={input} setNewCoords={setNewCoords} />
+              <TopCard coords={input} setNewCoords={setNewCoords} currentLocation={currentLocationData} />
             </div>
 
             <div className="w-full rounded border-2 border-dashed border-gray-200 p-4">
-              <BottomCard {...data.limitedResponse} />
+              <BottomCard {...currentData} />
             </div>
           </div>
           <div className="w-full rounded border-2 border-dashed border-gray-200 p-4">
@@ -79,7 +97,7 @@ const Home: NextPage = () => {
   );
 };
 
-const InfoCard = (props:LocationResponse) => {
+const InfoCard = (props: LocationResponse) => {
   return (
     <div className="w-full overflow-hidden rounded shadow-lg">
       <div className="flex flex-row items-center px-6">
