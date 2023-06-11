@@ -6,7 +6,7 @@
 - [ ] Map typescript error of any assignment
 - [ ] add current weather
 - [ ] add site manifest and favico
-- [ ] add github link and about me
+- [x] add github link and about me
 - [x] Black box opposite of coordinates should show current location 
 - [x] coordinate boxes should change when clicked on map
 - [ ] better fail state when API's fail so it doesn't look like the app is broken
