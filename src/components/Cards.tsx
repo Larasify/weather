@@ -157,7 +157,7 @@ export const TopCard: React.FC<{
         </span>
         <input
           type="text"
-          className="block w-32 rounded-lg bg-gray-100 py-2 text-center text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-xs"
+          className="block w-32 rounded-lg border border-gray-300 bg-gray-100 py-2 text-center text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-xs"
           placeholder="longitude"
           value={loninput}
           onChange={(e) => setLonInput(e.target.value)}
