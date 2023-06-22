@@ -4,12 +4,40 @@ import dayjs from "dayjs";
 import { weatherCondition } from "~/utils/weatherCondition";
 import Image from "next/image";
 import { type setNewCoordType } from "~/pages";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
+import { useMapContext } from "./MapReducer";
+import { LoadingPage } from "./loading";
 
 const titlestyle = "text-sm text-gray-700";
 const valuestyle = "text-sm text-gray-400";
-export const BottomCard = (props: WeatherResponse) => {
-  const condition = weatherCondition(props.daily.weathercode);
+export const BottomCard = () => {
+  const [currentData, setCurrentData] = useState<WeatherResponse>();
+  const mapContext = useMapContext();
+
+  const { data, isLoading, refetch } = api.service.weatherapi.useQuery(
+    { lat: mapContext.coords.lat.toString(), lon: mapContext.coords.lat.toString(), },
+    {
+      refetchInterval: 0,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  useEffect(() => {
+    void refetch();
+  }, [mapContext.coords.lat, mapContext.coords.lon]);
+
+  if (data && data.limitedResponse) {
+    if (data.limitedResponse !== currentData) {
+      setCurrentData(data.limitedResponse);
+    }
+  }
+ 
+  if (!currentData) return <div>hey</div>;
+
+
+  const condition = weatherCondition(currentData.daily.weathercode);
   if (!condition) return <div>:c</div>;
   return (
     <div className="overflow-hidden rounded-lg shadow-lg bg-white">
@@ -35,7 +63,7 @@ export const BottomCard = (props: WeatherResponse) => {
             <Icon icon="wi:night-sprinkle" className="text-3xl text-blue-400" />
             <b className={titlestyle}>Precipitation</b>
             <span className={valuestyle}>
-              {props.daily.precipitation_probability_max}%
+              {currentData.daily.precipitation_probability_max}%
             </span>
           </div>
         </div>
@@ -54,7 +82,7 @@ export const BottomCard = (props: WeatherResponse) => {
           <div className="flex flex-col">
             <b className={titlestyle}>Minimum</b>{" "}
             <span className={valuestyle}>
-              {props.daily.temperature_2m_min}º
+              {currentData.daily.temperature_2m_min}º
             </span>
           </div>
         </div>
@@ -63,7 +91,7 @@ export const BottomCard = (props: WeatherResponse) => {
           <div className="flex flex-col">
             <b className={titlestyle}>Maximum</b>{" "}
             <span className={valuestyle}>
-              {props.daily.temperature_2m_max}º
+              {currentData.daily.temperature_2m_max}º
             </span>
           </div>
         </div>
@@ -75,7 +103,7 @@ export const BottomCard = (props: WeatherResponse) => {
           <div className="flex flex-col">
             <b className={titlestyle}>Sunrise</b>{" "}
             <span className={valuestyle}>
-              {dayjs(props.daily.sunrise).format("HH:MM")}
+              {dayjs(currentData.daily.sunrise).format("HH:MM")}
             </span>
           </div>
         </div>
@@ -84,7 +112,7 @@ export const BottomCard = (props: WeatherResponse) => {
           <div className="flex flex-col">
             <b className={titlestyle}>Sunset</b>{" "}
             <span className={valuestyle}>
-              {dayjs(props.daily.sunset).format("HH:MM")}
+              {dayjs(currentData.daily.sunset).format("HH:MM")}
             </span>
           </div>
         </div>

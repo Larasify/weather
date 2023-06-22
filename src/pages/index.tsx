@@ -73,7 +73,7 @@ const Home: NextPage = () => {
     <>
       <div className="mx-auto flex max-w-screen-xl flex-col gap-4 py-4">
         <div className="w-30 rounded border-2 border-dashed border-gray-200  p-4">
-          <InfoCard display_name={currentLocationData} />
+          <InfoCard />
         </div>
         <div className="flex flex-col gap-4 lg:flex-row">
           <div className="flex w-full flex-col justify-between gap-4 sm:flex-row lg:w-2/5 lg:flex-col">
@@ -88,7 +88,7 @@ const Home: NextPage = () => {
             </div>
 
             <div className="w-full rounded border-2 border-dashed border-gray-200 p-4">
-              <BottomCard {...currentData} />
+              <BottomCard />
             </div>
           </div>
           <div className="w-full rounded border-2 border-dashed border-gray-200 p-4">
@@ -105,7 +105,8 @@ const Home: NextPage = () => {
   );
 };
 
-const InfoCard = (props: LocationResponse) => {
+const InfoCard = () => {
+  const mapContext = useMapContext();
   return (
     <div className="w-full bg-white overflow-hidden rounded shadow-lg">
       <div className="flex flex-row items-center justify-between px-6">
@@ -121,7 +122,7 @@ const InfoCard = (props: LocationResponse) => {
             <div className="whitespace-nowrap text-2xl font-semibold">
               Current Location
             </div>
-            <p className="text-base text-gray-900">{props.display_name}</p>
+            <p className="text-base text-gray-900">{mapContext.coords.locationName}</p>
           </div>
         </div>
         <button
