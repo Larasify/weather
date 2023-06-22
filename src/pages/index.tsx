@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import { api } from "~/utils/api";
 import { BottomCard, TopCard } from "~/components/Cards";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import {
@@ -9,6 +9,7 @@ import {
   type WeatherResponse,
 } from "~/server/api/routers/service";
 import { LoadingPage } from "~/components/loading";
+import { useMapContext } from "~/components/MapReducer";
 
 export type setNewCoordType = (lat: string, lon: string) => void;
 
@@ -17,7 +18,6 @@ const Home: NextPage = () => {
   const [currentData, setCurrentData] = useState<WeatherResponse>();
   const [currentLocationData, setCurrentLocationData] = useState<string>(" ");
   const [textBoxChange, setTextBoxChange] = useState(false);
-
   const lat = input[0];
   const lon = input[1];
   if (!lat || !lon) return <div>hello</div>;
@@ -96,7 +96,7 @@ const Home: NextPage = () => {
               id="map"
               className="h-screen max-h-96 w-full lg:h-full lg:max-h-full lg:w-full"
             >
-              <MapWithNoSSR coords={input} setNewCoords={setNewCoords} />
+              <MapWithNoSSR />
             </div>
           </div>
         </div>

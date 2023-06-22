@@ -8,30 +8,27 @@ import {
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { type setNewCoordType } from "~/pages";
+import { useMapContext } from "./MapReducer";
 
 
 
-interface PropInterface {
-  coords: string[];
-  setNewCoords: setNewCoordType;
-}
 
-const Map = (props: PropInterface) => {
+const Map = () => {
   const [zoomLevel, setZoomLevel] = useState(14);
-  if (!props.coords[0] || !props.coords[1]) return <div>hello</div>;
-  const lat = parseFloat(props.coords[0]);
-  const lon = parseFloat(props.coords[1]);
+  const [{lat, lon}, setCoords] = useState({lat: 53.381549, lon: -1.4819047});
+  const {coords, dispatch} = useMapContext();
 
   function AddMarkerOnClick() {
     const map = useMapEvents({
       click(e) {
         const newCoords = e.latlng;
-        props.setNewCoords(
-          newCoords.lat.toPrecision(8).toString(),
-          newCoords.lng.toPrecision(8).toString()
-        );
+        map.setView(newCoords, map.getZoom());
+        setCoords({lat: newCoords.lat, lon: newCoords.lng});
+        dispatch({type: "setLat", payload: newCoords.lat.toString()});
+        dispatch({type: "setLon", payload: newCoords.lng.toString()});
+
       },
       zoomend: () => {
         console.log(map.getZoom());
