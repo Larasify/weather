@@ -14,61 +14,11 @@ import { useMapContext } from "~/components/MapReducer";
 export type setNewCoordType = (lat: string, lon: string) => void;
 
 const Home: NextPage = () => {
-  const [input, setInput] = useState(["53.381549", "-1.4819047"]);
-  const [currentData, setCurrentData] = useState<WeatherResponse>();
-  const [currentLocationData, setCurrentLocationData] = useState<string>(" ");
-  const [textBoxChange, setTextBoxChange] = useState(false);
-  const lat = input[0];
-  const lon = input[1];
-  if (!lat || !lon) return <div>hello</div>;
-  const { data, isLoading, refetch } = api.service.weatherapi.useQuery(
-    { lat: lat, lon: lon },
-    {
-      refetchInterval: 0,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const {
-    data: locationData,
-    isLoading: locationIsLoading,
-    refetch: locationRefetch,
-  } = api.service.locationapi.useQuery(
-    { lat: lat, lon: lon },
-    {
-      refetchInterval: 0,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const setNewCoords: setNewCoordType = (lat: string, lon: string) => {
-    console.log(lat);
-    setCurrentData(data?.limitedResponse);
-    if (locationData) {
-      setCurrentLocationData(locationData);
-    }
-    setInput([lat, lon]);
-    setTextBoxChange(false);
-    //void refetch();
-  };
 
   const MapWithNoSSR = dynamic(() => import("~/components/Map"), {
     ssr: false,
   });
 
-  //if (isLoading) return <LoadingPage/>
-  if (data && data.limitedResponse && locationData) {
-    if (data.limitedResponse !== currentData) {
-      setCurrentData(data.limitedResponse);
-    }
-    if (locationData !== currentLocationData) {
-      setCurrentLocationData(locationData);
-    }
-  }
-
-  if (!currentData) return <LoadingPage />;
   return (
     <>
       <div className="mx-auto flex max-w-screen-xl flex-col gap-4 py-4">
@@ -78,13 +28,7 @@ const Home: NextPage = () => {
         <div className="flex flex-col gap-4 lg:flex-row">
           <div className="flex w-full flex-col justify-between gap-4 sm:flex-row lg:w-2/5 lg:flex-col">
             <div className="w-full rounded border-2 border-dashed border-gray-200  p-4">
-              <TopCard
-                coords={input}
-                setNewCoords={setNewCoords}
-                currentLocation={currentLocationData}
-                textBoxChange={textBoxChange}
-                setTextBoxChange={setTextBoxChange}
-              />
+              <TopCard />
             </div>
 
             <div className="w-full rounded border-2 border-dashed border-gray-200 p-4">
@@ -106,9 +50,9 @@ const Home: NextPage = () => {
 };
 
 const InfoCard = () => {
-  const mapContext = useMapContext();
+  const {coords, dispatch} = useMapContext();
   return (
-    <div className="w-full bg-white overflow-hidden rounded shadow-lg">
+    <div className="w-full overflow-hidden rounded bg-white shadow-lg">
       <div className="flex flex-row items-center justify-between px-6">
         <div className="flex flex-row items-center ">
           <Image
@@ -122,15 +66,19 @@ const InfoCard = () => {
             <div className="whitespace-nowrap text-2xl font-semibold">
               Current Location
             </div>
-            <p className="text-base text-gray-900">{mapContext.coords.locationName}</p>
+            <p className="text-base text-gray-900">
+              {coords.locationName}
+            </p>
           </div>
         </div>
         <button
           type="button"
           data-te-ripple-init
           data-te-ripple-color="light"
-          className="mb-2 hidden sm:inline-block rounded bg-black opacity-75 px-6 py-2.5 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg"
-          onClick={() => {window.location.href = 'https://github.com/Larasify';}}
+          className="mb-2 hidden rounded bg-black px-6 py-2.5 text-xs font-medium uppercase leading-normal text-white opacity-75 shadow-md transition duration-150 ease-in-out hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg sm:inline-block"
+          onClick={() => {
+            window.location.href = "https://github.com/Larasify";
+          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

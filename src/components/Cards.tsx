@@ -7,7 +7,7 @@ import { type setNewCoordType } from "~/pages";
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import { useMapContext } from "./MapReducer";
-import { LoadingPage } from "./loading";
+import { LoadingPage, LoadingSpinner } from "./loading";
 
 const titlestyle = "text-sm text-gray-700";
 const valuestyle = "text-sm text-gray-400";
@@ -16,7 +16,10 @@ export const BottomCard = () => {
   const mapContext = useMapContext();
 
   const { data, isLoading, refetch } = api.service.weatherapi.useQuery(
-    { lat: mapContext.coords.lat.toString(), lon: mapContext.coords.lat.toString(), },
+    {
+      lat: mapContext.coords.lat.toString(),
+      lon: mapContext.coords.lat.toString(),
+    },
     {
       refetchInterval: 0,
       refetchOnReconnect: false,
@@ -33,14 +36,18 @@ export const BottomCard = () => {
       setCurrentData(data.limitedResponse);
     }
   }
- 
-  if (!currentData) return <div>hey</div>;
 
+  if (!currentData)
+    return (
+      <div className="flex h-80 w-full items-center align-middle justify-center">
+        <LoadingSpinner size={64} />
+      </div>
+    );
 
   const condition = weatherCondition(currentData.daily.weathercode);
   if (!condition) return <div>:c</div>;
   return (
-    <div className="overflow-hidden rounded-lg shadow-lg bg-white">
+    <div className="overflow-hidden rounded-lg bg-white shadow-lg">
       <div className="flex flex-row justify-between border p-4">
         <span className="text-sm font-bold uppercase tracking-widest">
           Weather
@@ -121,47 +128,36 @@ export const BottomCard = () => {
   );
 };
 
-export const TopCard: React.FC<{
-  coords: string[];
-  setNewCoords: setNewCoordType;
-  currentLocation: string;
-  textBoxChange: boolean;
-  setTextBoxChange: React.Dispatch<React.SetStateAction<boolean>>;
-}> = (props) => {
-  const [latinput, setLatInput] = useState(props.coords[0]);
-  const [loninput, setLonInput] = useState(props.coords[1]);
+export const TopCard: React.FC = () => {
+  const {coords, dispatch} = useMapContext();
 
-  if (!props.coords[0] || !props.coords[1]) return <div></div>;
-  if (
-    (props.coords[0] !== latinput || props.coords[1] !== loninput) &&
-    !props.textBoxChange
-  ) {
-    setLatInput(props.coords[0]);
-    setLonInput(props.coords[1]);
-  }
 
-  //if(!props.coords[0] || !props.coords[1]) return(<div></div>);
-  //const lat = props.coords[0];
-  //const lon = props.coords[1];
-  //setLatInput(props.coords[0]);
-  //setLonInput(props.coords[1]);
+  const [latinput, setLatInput] = useState(coords.lat.toString());
+  const [loninput, setLonInput] = useState(coords.lon.toString());
+
+  useEffect(() => {
+    setLatInput(coords.lat.toPrecision(8).toString());
+    setLonInput(coords.lon.toPrecision(8).toString());
+  }, [coords]);
+
 
   const handleClick = () => {
     console.log("clicked");
     if (!latinput || !loninput) return;
-    props.setNewCoords(latinput, loninput);
+    dispatch({ type: "setLat", payload: latinput });
+    dispatch({ type: "setLon", payload: loninput });
   };
 
   return (
-    <div className="my-auto flex h-full w-full flex-col justify-center rounded-lg shadow-xl bg-white">
+    <div className="my-auto flex h-full w-full flex-col justify-center rounded-lg bg-white shadow-xl">
       <div className="flex flex-row justify-between p-4">
         <span className="text-sm font-bold uppercase tracking-widest">
           Coordinates
         </span>
         <span className="rounded bg-black px-2 text-sm uppercase tracking-widest text-white opacity-75 shadow-lg">
           {
-            props.currentLocation.split(",")[
-              props.currentLocation.split(",").length - 1
+            coords.locationName.split(",")[
+              coords.locationName.split(",").length - 1
             ]
           }
         </span>
@@ -178,7 +174,6 @@ export const TopCard: React.FC<{
           value={latinput}
           onChange={(e) => {
             setLatInput(e.target.value);
-            props.setTextBoxChange(true);
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
@@ -200,7 +195,6 @@ export const TopCard: React.FC<{
           value={loninput}
           onChange={(e) => {
             setLonInput(e.target.value);
-            props.setTextBoxChange(true);
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {

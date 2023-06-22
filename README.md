@@ -11,7 +11,7 @@
 - [x] coordinate boxes should change when clicked on map
 - [ ] better fail state when API's fail so it doesn't look like the app is broken
 - [ ] input validation
-- [ ] map zoom level resets when you click on the map and map flashes when moving
+- [x] map zoom level resets when you click on the map and map flashes when moving
 - [x] card coordinates are stuck (sometimes janky when clicked in sea?)
 
 
