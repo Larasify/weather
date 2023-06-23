@@ -18,7 +18,7 @@ export const BottomCard = () => {
   const { data, isLoading, refetch } = api.service.weatherapi.useQuery(
     {
       lat: mapContext.coords.lat.toString(),
-      lon: mapContext.coords.lat.toString(),
+      lon: mapContext.coords.lon.toString(),
     },
     {
       refetchInterval: 0,
