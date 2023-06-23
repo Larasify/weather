@@ -3,11 +3,10 @@ import { Icon } from "@iconify/react";
 import dayjs from "dayjs";
 import { weatherCondition } from "~/utils/weatherCondition";
 import Image from "next/image";
-import { type setNewCoordType } from "~/pages";
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import { useMapContext } from "./MapReducer";
-import { LoadingPage, LoadingSpinner } from "./loading";
+import {  LoadingSpinner } from "./loading";
 
 const titlestyle = "text-sm text-gray-700";
 const valuestyle = "text-sm text-gray-400";

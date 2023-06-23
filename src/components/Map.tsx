@@ -9,10 +9,8 @@ import {
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
-import { useEffect, useRef, useState } from "react";
-import { type setNewCoordType } from "~/pages";
+import { useEffect, useState } from "react";
 import { useMapContext } from "./MapReducer";
-import { LatLng } from "leaflet";
 
 const Map = () => {
   const [zoomLevel, setZoomLevel] = useState(14);

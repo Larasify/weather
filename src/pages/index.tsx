@@ -1,14 +1,7 @@
 import { type NextPage } from "next";
-import { api } from "~/utils/api";
 import { BottomCard, TopCard } from "~/components/Cards";
-import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import {
-  type LocationResponse,
-  type WeatherResponse,
-} from "~/server/api/routers/service";
-import { LoadingPage } from "~/components/loading";
 import { useMapContext } from "~/components/MapReducer";
 
 export type setNewCoordType = (lat: string, lon: string) => void;
