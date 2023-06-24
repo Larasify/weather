@@ -3,9 +3,9 @@
 - [x] don't rerender page on refresh
 - [ ] fix crash on coord enter on some coordinates (-12lng) (maybe where you click the sea where there is no address data) (yeah location api doesnt work on sea)
 - [ ] search address
-- [ ] Map typescript error of any assignment
+- [x] Map typescript error of any assignment
 - [ ] add current weather
-- [ ] add site manifest and favico
+- [x] add site manifest and favico
 - [x] add github link and about me
 - [x] Black box opposite of coordinates should show current location 
 - [x] coordinate boxes should change when clicked on map

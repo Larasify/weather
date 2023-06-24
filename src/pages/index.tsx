@@ -3,14 +3,30 @@ import { BottomCard, TopCard } from "~/components/Cards";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useMapContext } from "~/components/MapReducer";
+import { api } from "~/utils/api";
+import { LoadingPage } from "~/components/loading";
 
 export type setNewCoordType = (lat: string, lon: string) => void;
 
 const Home: NextPage = () => {
-
   const MapWithNoSSR = dynamic(() => import("~/components/Map"), {
     ssr: false,
   });
+
+  //We prefetch here for a better loading state on first load so we dont get loading spinner on components
+  const { data, isLoading, refetch } = api.service.weatherapi.useQuery(
+    {
+      lat: "53.381549",
+      lon: "-1.4819047",
+    },
+    {
+      refetchInterval: 0,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  if(isLoading) return <div><LoadingPage /></div>;
 
   return (
     <>
@@ -43,7 +59,7 @@ const Home: NextPage = () => {
 };
 
 const InfoCard = () => {
-  const {coords, dispatch} = useMapContext();
+  const { coords, dispatch } = useMapContext();
   return (
     <div className="w-full overflow-hidden rounded bg-white shadow-lg">
       <div className="flex flex-row items-center justify-between px-6">
@@ -59,9 +75,7 @@ const InfoCard = () => {
             <div className="whitespace-nowrap text-2xl font-semibold">
               Current Location
             </div>
-            <p className="text-base text-gray-900">
-              {coords.locationName}
-            </p>
+            <p className="text-base text-gray-900">{coords.locationName}</p>
           </div>
         </div>
         <button
